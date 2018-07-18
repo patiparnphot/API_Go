@@ -18,3 +18,18 @@ func Hello(w http.ResponseWriter, r *http.Request) {
 	encoder := json.NewEncoder(w)
 	encoder.Encode(msg)
 }
+
+type User struct {
+	Name string `json:"name"`
+}
+
+func HelloPost(w http.ResponseWriter, r *http.Request) {
+	var u User
+	body := json.NewDecoder(r.Body)
+	body.Decode(&u)
+	msg := Massage{Txt: "hello " + u.Name}
+
+	w.Header().Set("centent-type", "application/json")
+	encoder := json.NewEncoder(w)
+	encoder.Encode(msg)
+}
