@@ -9,8 +9,8 @@ import (
 )
 
 func TestHelloFunc(t *testing.T) {
-	expected := "hello world"
-	r, _ := http.NewRequest(http.MethodGet, "/hello", nil)
+	expected := `{"txt": "hello world"}`
+	r, _ := http.NewRequest(http.MethodGet, "/hello?name=world", nil)
 	w := httptest.NewRecorder()
 
 	Hello(w, r)
