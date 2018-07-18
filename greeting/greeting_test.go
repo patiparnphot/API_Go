@@ -5,19 +5,20 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
 func TestHelloFunc(t *testing.T) {
-	expected := `{"txt": "hello world"}`
+	expected := `{"txt":"hello world"}`
 	r, _ := http.NewRequest(http.MethodGet, "/hello?name=world", nil)
 	w := httptest.NewRecorder()
 
 	Hello(w, r)
 	resp := w.Result()
 	body, _ := ioutil.ReadAll(resp.Body)
-	actual := string(body)
+	actual := strings.TrimSpace(string(body))
 	if actual != expected {
-		t.Errorf("expect %s but got %s", expected, actual)
+		t.Errorf("expect '%s' but got '%s'", expected, actual)
 	}
 }

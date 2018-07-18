@@ -1,11 +1,20 @@
 package greeting
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
+type Massage struct {
+	Txt string `json:"txt"`
+}
+
 func Hello(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
-	fmt.Fprintf(w, `{"txt": "hello world"}`)
+	values := r.URL.Query()
+	name := values.Get("name")
+	msg := Massage{Txt: "hello " + name}
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(msg)
 }
